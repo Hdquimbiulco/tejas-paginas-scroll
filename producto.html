@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- FICHA DE PRODUCTO: una sola página para todos; el producto sale de ?id= (src/producto.js con src/datos.js). -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Producto · Truvec</title>
+  <meta name="description" content="Ficha de producto Truvec.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body data-pagina="producto">
+<div id="cabecera"></div>
+<main>
+<section class="hero hero-corto" data-hero style="--foto: url(/img/obra2.webp)">
+  <div class="hero-texto"><h1 data-nombre-hero>Producto</h1></div>
+</section>
+<div class="migas-fila"><ol class="migas" aria-label="Ruta" data-migas></ol><ul class="submenu" data-submenu></ul></div>
+<section class="seccion" data-ficha>
+  <h2 class="titulo titulo-raya" data-nombre></h2>
+  <div class="ficha">
+    <div>
+      <figure class="ficha-foto" data-foto></figure>
+      <div class="ficha-bloque">
+        <h3 class="subtitulo">Normas técnicas</h3>
+        <div class="normas" data-normas></div>
+      </div>
+    </div>
+    <div>
+      <div class="ficha-bloque"><h3 class="subtitulo">Usos</h3><div class="usos" data-usos></div></div>
+      <div class="ficha-bloque"><h3 class="subtitulo">Descripción</h3><ul class="descripcion" data-descripcion></ul></div>
+      <div class="ficha-bloque">
+        <h3 class="subtitulo">Información adicional</h3>
+        <div class="descargas">
+          <a class="descarga" href="#"><svg class="ico"><use href="#i-factura"/></svg>Descargar catálogo <span class="pendiente">(pendiente)</span></a>
+          <a class="descarga" href="sostenibilidad.html#certificaciones"><svg class="ico"><use href="#i-sello"/></svg>Ver certificaciones</a>
+        </div>
+      </div>
+      <div class="ficha-acciones">
+        <a class="boton" data-cotizar href="cotizar.html">Cotizar este producto</a>
+        <a class="boton boton-wa" data-wa-producto target="_blank" rel="noopener" href="#">Preguntar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+  <div class="relacionados">
+    <h3 class="subtitulo">De la misma categoría</h3>
+    <div class="relacionados-lista" data-relacionados></div>
+  </div>
+</section>
+</main>
+<div id="pie"></div>
+<script type="module" src="/src/producto.js"></script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!doctype html>
+<!--
+  =============================================================================
+  TRUVEC · SITIO CON PÁGINAS Y VIDEO SCROLL (carpeta tejas2-pages-scroll)
+  -----------------------------------------------------------------------------
+  Parte de tejas2 (Modelo 2) y suma páginas con la organización del sitio de
+  referencia (Adelca): menú con desplegables, páginas de productos, nosotros,
+  sostenibilidad, reciclaje, obras, noticias, contacto y cotizar.
+
+  Dónde está cada cosa:
+  - Contenido de esta página: este archivo. Cada página es un .html de la raíz.
+  - Menú, pie y marcas aliadas (iguales en todas): src/comun.js.
+  - Productos y datos de contacto: src/datos.js.
+  - Aspecto: src/style.css. Movimiento de esta página: src/inicio.js.
+
+  Orden del inicio (cada <section> tiene un id):
+    1. Portada: teja de PVC con lluvia   #portada   (video scroll)
+    2. Nuestro propósito                 #proposito
+    3. Productos: tres materiales        #materiales
+    4. Láminas en video                  #lamina    (video scroll)
+    5. Cifras                            #cifras
+    6. Mapa de sucursales                #mapa
+    7. Últimas noticias                  #noticias
+    8. Cotizar (franja que lleva a cotizar.html)
+    9. Pie: tejas que cubren la palabra TRUVEC
+  Se quitaron de tejas2: galería, comparador, calculadora (pasó a cotizar.html)
+  y preguntas (pasaron a contacto.html), para que el inicio sea más corto.
+  =============================================================================
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Truvec · Tejas de PVC, policarbonato y polipropileno</title>
+  <meta name="description" content="Tejas y láminas de PVC, policarbonato y polipropileno para casas, garajes y bodegas.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body data-pagina="inicio" class="inicio">
+
+<div id="cabecera"></div>
+<div class="avance"><span id="avance"></span></div>
+
+<main>
+
+<!-- =========================================================================
+     1. PORTADA: TEJA DE PVC CON LLUVIA (fotogramas atados al scroll)
+       data-frames="lluvia" → carpeta public/frames/lluvia/
+       data-total="180"     → cuántos fotogramas hay
+       data-pantallas="4"   → cuánto hay que bajar para recorrerlo (tejas2: 5)
+       data-pantallas-movil="3" → lo mismo en celular
+     Cada .cap aparece en el tramo data-tramo="inicio,fin" (0 = inicio, 1 = final).
+     ========================================================================= -->
+<section id="portada" class="escena" data-frames="lluvia" data-total="180" data-pantallas="4" data-pantallas-movil="3">
+  <canvas></canvas>
+  <div class="velo"></div>
+  <div class="arco" aria-hidden="true"></div>
+  <div class="cap cap-inicio" data-tramo="0,0.25">
+    <p class="sello">Teja de PVC · Truvec</p>
+    <h1>Techos que<br>duran.</h1>
+    <p class="cap-texto">Para la lluvia más fuerte.</p>
+    <p class="indicacion"><span></span>Desplazar para ver el agua correr</p>
+  </div>
+  <div class="cap cap-lado" data-tramo="0.3,0.58">
+    <p class="cap-num">01</p>
+    <h2>El agua resbala</h2>
+    <p class="cap-texto">El perfil colonial la lleva del caballete al alero, sin charcos ni goteras.</p>
+  </div>
+  <div class="cap cap-lado cap-der" data-tramo="0.62,1">
+    <p class="cap-num">02</p>
+    <h2>No se oxida</h2>
+    <p class="cap-texto">PVC, policarbonato y polipropileno, para la casa, el garaje y la bodega.</p>
+    <a href="productos.html" class="boton boton-claro">Ver productos <svg class="ico"><use href="#i-flecha"/></svg></a>
+  </div>
+</section>
+
+<!-- =========================================================================
+     2. NUESTRO PROPÓSITO: cita a la izquierda y foto recortada a la derecha.
+     inicio.js sección 2 enciende las palabras al bajar; data-calientes =
+     palabras que quedan en color (separadas por | ).
+     ========================================================================= -->
+<section id="proposito" class="seccion proposito">
+  <div class="proposito-texto">
+    <p class="sello">Nuestro propósito</p>
+    <blockquote><p class="encendido" data-calientes="techos|duran,|seguro.">«Cubrimos casas, garajes y bodegas con techos que duran, para que cada familia y cada negocio crezcan bajo un techo seguro.»</p></blockquote>
+    <a class="enlace-flecha" href="nosotros.html">Conocer Truvec <svg class="ico"><use href="#i-flecha"/></svg></a>
+  </div>
+  <figure class="foto-pestana"><img src="/img/obra1.webp" alt="Casa con techo de teja de PVC" loading="lazy"></figure>
+</section>
+
+<!-- =========================================================================
+     3. PRODUCTOS: un material por tarjeta, con dos rasgos y enlace a su ficha.
+     El color de cada tarjeta sale de style="--c: ...".
+     ========================================================================= -->
+<section id="materiales" class="seccion seccion-gris">
+  <header class="cabecera-seccion">
+    <h2 class="titulo">Un techo, <em>tres materiales</em></h2>
+    <a class="enlace-flecha" href="productos.html">Ver todos los productos <svg class="ico"><use href="#i-flecha"/></svg></a>
+  </header>
+  <div class="materiales-rejilla">
+    <a class="material" href="producto.html?id=teja-colonial-pvc" style="--c: var(--pvc)">
+      <figure class="material-foto"><img src="/img/mosaico/pvc-techo.webp" alt="Techo con teja colonial de PVC roja"></figure>
+      <p class="material-chip">Para la casa</p>
+      <h3>PVC</h3>
+      <p class="material-frase">Teja colonial que aguanta la humedad.</p>
+      <ul class="rasgos">
+        <li><svg><use href="#i-gota"/></svg>No se oxida</li>
+        <li><svg><use href="#i-paleta"/></svg>Cinco colores</li>
+      </ul>
+      <span class="material-ir">Ver producto <svg class="ico"><use href="#i-flecha"/></svg></span>
+    </a>
+    <a class="material" href="producto.html?id=policarbonato-alveolar" style="--c: var(--pc)">
+      <figure class="material-foto"><img src="/img/material/pc.webp" alt="Láminas de policarbonato alveolar en varios colores"></figure>
+      <p class="material-chip">Para el garaje y la pérgola</p>
+      <h3>Policarbonato</h3>
+      <p class="material-frase">Cubre sin apagar la luz.</p>
+      <ul class="rasgos">
+        <li><svg><use href="#i-luz"/></svg>Translúcido</li>
+        <li><svg><use href="#i-pluma"/></svg>Liviano</li>
+      </ul>
+      <span class="material-ir">Ver producto <svg class="ico"><use href="#i-flecha"/></svg></span>
+    </a>
+    <a class="material" href="producto.html?id=teja-polipropileno" style="--c: var(--pp)">
+      <figure class="material-foto"><img src="/img/material/pp.webp" alt="Lámina ondulada de polipropileno sostenida a mano"></figure>
+      <p class="material-chip">Para la bodega y la ampliación</p>
+      <h3>Polipropileno</h3>
+      <p class="material-frase">Rinde más techo por menos.</p>
+      <ul class="rasgos">
+        <li><svg><use href="#i-moneda"/></svg>Económico</li>
+        <li><svg><use href="#i-tijera"/></svg>Fácil de cortar</li>
+      </ul>
+      <span class="material-ir">Ver producto <svg class="ico"><use href="#i-flecha"/></svg></span>
+    </a>
+  </div>
+</section>
+
+<!-- =========================================================================
+     4. LÁMINAS EN VIDEO CON SCROLL (igual que tejas2; ver su index.html 2b
+     para el detalle de los números de fotograma)
+       data-pantallas="5" (tejas2: 6.5) y data-pantallas-movil="4" (tejas2: 4.5)
+     ========================================================================= -->
+<section id="lamina" class="lamina" data-fotogramas="laminas" data-total="261" data-pantallas="5" data-pantallas-movil="4">
+  <div class="lamina-texto">
+    <p class="sello">Láminas en video</p>
+    <h2 class="titulo">Cada lámina, <em>de cerca</em></h2>
+    <div class="acabados">
+      <div class="acabado" data-material="pvc" data-desde="1" data-hasta="78">
+        <button type="button" class="acabados-nombre">PVC</button>
+        <ul class="colores" aria-label="Colores de la lámina de PVC">
+          <li style="--muestra: #b3261e" data-desde="1" data-hasta="12"><span></span>Rojo</li>
+          <li style="--muestra: #2f6b4f" data-desde="13" data-hasta="44"><span></span>Verde</li>
+          <li style="--muestra: #2b4c7e" data-desde="45" data-hasta="78"><span></span>Azul</li>
+          <li style="--muestra: #b5502f"><span></span>Terracota</li>
+          <li style="--muestra: #6b7075"><span></span>Gris</li>
+        </ul>
+      </div>
+      <div class="acabado" data-material="pc" data-desde="79" data-hasta="160">
+        <button type="button" class="acabados-nombre">Policarbonato</button>
+        <ul class="colores" aria-label="Acabados de la lámina de policarbonato">
+          <li style="--muestra: #e8f4f6" data-desde="79" data-hasta="160"><span></span>Cristal</li>
+        </ul>
+      </div>
+      <div class="acabado" data-material="pp" data-desde="161" data-hasta="261">
+        <button type="button" class="acabados-nombre">Polipropileno</button>
+        <ul class="colores" aria-label="Acabados de la lámina de polipropileno">
+          <li style="--muestra: #9c3a24" data-desde="161" data-hasta="261"><span></span>Rojo óxido</li>
+        </ul>
+      </div>
+    </div>
+    <div class="detalles">
+      <ul class="detalle-grupo" data-material="pvc">
+        <li class="detalle"><b>01</b>Cuatro ondas de perfil colonial</li>
+        <li class="detalle"><b>02</b>Escalones que imitan el traslape de la teja</li>
+        <li class="detalle"><b>03</b>Tornillos con capuchón en la cresta</li>
+      </ul>
+      <ul class="detalle-grupo" data-material="pc">
+        <li class="detalle"><b>04</b>Policarbonato: cubre y deja pasar la luz</li>
+        <li class="detalle"><b>05</b>Onda de 76 mm y tornillos con arandela de goma</li>
+      </ul>
+      <ul class="detalle-grupo" data-material="pp">
+        <li class="detalle"><b>06</b>Polipropileno: perfil trapezoidal y acabado mate</li>
+        <li class="detalle"><b>07</b>Onda de 13 cm, 35 mm de alto</li>
+      </ul>
+    </div>
+  </div>
+  <div class="lamina-video">
+    <canvas aria-label="Video de las láminas de PVC, policarbonato y polipropileno: avanza con el scroll"></canvas>
+    <div class="video-avance" aria-hidden="true"><span></span></div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     5. CIFRAS: bloques terracota y negros con corte en diagonal.
+     Las cifras son de ejemplo (clase "pendiente" en la nota).
+     ========================================================================= -->
+<section id="cifras" class="cifras" aria-label="Truvec en cifras">
+  <div class="cifra"><b>+20</b><span>años cubriendo techos</span></div>
+  <div class="cifra cifra-negra"><b>20</b><span>ciudades en el mapa de sucursales</span></div>
+  <div class="cifra"><b>3</b><span>materiales para cada obra</span></div>
+  <div class="cifra cifra-negra"><b>5</b><span>colores de teja de PVC</span></div>
+  <p class="cifras-nota">Cifras de ejemplo.</p>
+</section>
+
+<!-- =========================================================================
+     6. MAPA DE SUCURSALES (igual que tejas2: src/mapaSucursales.js con los
+     datos de public/geo/; ver public/geo/LEEME.md)
+     ========================================================================= -->
+<section id="mapa" class="seccion mapa">
+  <header class="cabecera-seccion">
+    <div>
+      <p class="sello">Sucursales</p>
+      <h2 class="titulo">Truvec en <em>todo el país</em></h2>
+    </div>
+    <p class="bajada">Elegir una ciudad en el mapa o en la lista para ver la dirección.</p>
+  </header>
+  <div class="mapa-rejilla">
+    <div class="mapa-lienzo">
+      <div class="mapa-mapa" role="region" aria-label="Mapa de sucursales de Truvec en Ecuador"></div>
+      <nav class="mapa-ruta" aria-label="Nivel del mapa"></nav>
+      <button type="button" class="mapa-volver" hidden>← Todo Ecuador</button>
+      <p class="mapa-estado" role="status">Cargando el mapa…</p>
+      <article class="mapa-ficha" aria-live="polite" hidden></article>
+    </div>
+    <aside class="mapa-lista" aria-label="Lista de sucursales">
+      <p class="mapa-lista-total">Sucursales</p>
+      <ul></ul>
+    </aside>
+  </div>
+  <p class="nota">Salvo Quito, las sucursales son ubicaciones de demostración. Límites: INEC 2024.</p>
+</section>
+
+<!-- =========================================================================
+     7. ÚLTIMAS NOTICIAS: tres tarjetas que llevan a noticias.html (de ejemplo)
+     ========================================================================= -->
+<section id="noticias" class="seccion seccion-negra">
+  <header class="cabecera-seccion">
+    <h2 class="titulo titulo-icono"><span class="circulo"><svg class="ico"><use href="#i-megafono"/></svg></span>Últimas noticias</h2>
+    <a class="enlace-flecha" href="noticias.html">Ver todas <svg class="ico"><use href="#i-flecha"/></svg></a>
+  </header>
+  <div class="noticias-rejilla">
+    <a class="noticia" href="noticias.html#n1"><figure><img src="/img/mosaico/pc-piscina.webp" alt="" loading="lazy"></figure><p class="noticia-fecha">Noviembre 2026</p><h3>Nueva línea de policarbonato para piscinas y patios</h3></a>
+    <a class="noticia" href="noticias.html#n2"><figure><img src="/img/obra2.webp" alt="" loading="lazy"></figure><p class="noticia-fecha">Octubre 2026</p><h3>Truvec abre una sucursal en la Costa</h3></a>
+    <a class="noticia" href="noticias.html#n3"><figure><img src="/img/mosaico/pvc-colores.webp" alt="" loading="lazy"></figure><p class="noticia-fecha">Septiembre 2026</p><h3>Programa Recicla tu teja: primeras toneladas recuperadas</h3></a>
+  </div>
+  <p class="nota">Noticias de ejemplo.</p>
+</section>
+
+<!-- 8. COTIZAR: franja que lleva a la página del cotizador -->
+<section class="franja-accion">
+  <div>
+    <h2>¿Cuánto techo hay que cubrir?</h2>
+    <p>El cotizador calcula el área con traslapes y envía el pedido por WhatsApp o por correo.</p>
+  </div>
+  <a href="cotizar.html" class="boton boton-claro">Cotizar un techo <svg class="ico"><use href="#i-flecha"/></svg></a>
+</section>
+
+<!-- =========================================================================
+     9. TEJAS QUE CUBREN LA PALABRA TRUVEC (src/tejasLetras.js, igual que tejas2)
+     ========================================================================= -->
+<section class="techo-letras" aria-label="Truvec">
+  <div class="pie-techo"><canvas id="techoTejas"></canvas></div>
+</section>
+
+</main>
+
+<div id="pie"></div>
+<script type="module" src="/src/inicio.js"></script>
+</body>
+</html>

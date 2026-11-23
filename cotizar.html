@@ -1,0 +1,108 @@
+<!doctype html>
+<!-- COTIZAR: calculadora de láminas (de tejas2), cotizador por cajas de tornillos y
+     accesorios, y envío del pedido. Lógica en src/cotizar.js.
+     cotizar.html?material=pvc|pc|pp → sólo láminas · ?articulo=<id> → sólo ese accesorio
+     · sin nada (menú «Cotizar») → los dos. -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cotizar · Truvec</title>
+  <meta name="description" content="Cotizador de techos Truvec.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body data-pagina="cotizar">
+<div id="cabecera"></div>
+<main>
+<section class="hero hero-corto" style="--foto: url(/img/mosaico/pvc-techo.webp)">
+  <div class="hero-texto"><h1>Cotizar</h1><p data-bajada>Láminas por medidas; tornillos y accesorios por cajas. Después, ventas confirma precio y entrega.</p></div>
+</section>
+<div class="migas-fila"><ol class="migas" aria-label="Ruta"><li><a href="index.html">Inicio</a></li><li aria-current="page">Cotizar</li></ol><ul class="submenu" data-submenu-cotizar><li><a href="#laminas">Láminas</a></li><li><a href="#accesorios">Tornillos y accesorios</a></li></ul></div>
+<section id="laminas" class="seccion">
+  <h2 class="subtitulo">Cotizar láminas</h2>
+  <form id="calculo" class="tarjeta-form tarjeta-ancha">
+    <p class="paso"><span>1</span>Material</p>
+    <div class="opciones">
+      <label class="opcion" style="--c: var(--pvc)"><input type="radio" name="material" value="pvc" data-nombre="PVC" checked><span>PVC</span></label>
+      <label class="opcion" style="--c: var(--pc)"><input type="radio" name="material" value="pc" data-nombre="Policarbonato"><span>Policarbonato</span></label>
+      <label class="opcion" style="--c: var(--pp)"><input type="radio" name="material" value="pp" data-nombre="Polipropileno"><span>Polipropileno</span></label>
+    </div>
+    <p class="paso"><span>2</span>Medidas</p>
+    <div class="medidas">
+      <label>Largo del techo (m)<input id="largo" type="number" min="0" step="0.1" value="8" inputmode="decimal"></label>
+      <label>Ancho del techo (m)<input id="ancho" type="number" min="0" step="0.1" value="6" inputmode="decimal"></label>
+      <label>Largo de lámina (m)<input id="largoLamina" type="number" min="0" step="0.1" value="6" inputmode="decimal"></label>
+    </div>
+    <output id="resultado" for="largo ancho largoLamina"></output>
+  </form>
+</section>
+
+
+
+<!-- =========================================================================
+     COTIZADOR POR CAJAS: tornillos y accesorios (src/cotizar.js, parte 2)
+     Se venden por caja completa. Cantidad y Nro. de cajas van enlazados:
+     al escribir uno, se calcula el otro. Unidades por caja y valor por unidad
+     salen de src/datos.js (caja y precio de cada accesorio; datos de ejemplo).
+     «Agregar al pedido» suma la línea a la tabla, que muestra el total.
+     ========================================================================= -->
+<section id="accesorios" class="seccion seccion-gris">
+  <h2 class="subtitulo">Cotizar tornillos y accesorios</h2>
+  <div class="cajas-rejilla">
+    <form id="cajas" class="tarjeta-form tarjeta-blanca">
+      <label>Artículo<select id="articulo"></select></label>
+      <p class="cajas-info" id="cajasInfo"></p>
+      <div class="cajas-campos">
+        <label>Cantidad (unidades)<input id="cantidad" type="number" min="0" step="1" value="100" inputmode="numeric"></label>
+        <label>Nro. de cajas<input id="nroCajas" type="number" min="0" step="1" value="1" inputmode="numeric"></label>
+      </div>
+      <dl class="cajas-valores">
+        <div><dt>Valor por unidad</dt><dd id="valorUnidad"></dd></div>
+        <div><dt>Valor por caja</dt><dd id="valorCaja"></dd></div>
+        <div class="cajas-total"><dt>Total por cajas</dt><dd id="totalCajas"></dd></div>
+      </dl>
+      <button class="boton" type="submit">Agregar al pedido</button>
+    </form>
+    <div class="tarjeta-form tarjeta-blanca">
+      <p class="paso">Material seleccionado</p>
+      <div class="tabla-pedido">
+        <table>
+          <thead><tr><th>Artículo</th><th>Cantidad</th><th>Cajas</th><th>Valor unidad</th><th>Total</th><th><span class="oculto">Quitar</span></th></tr></thead>
+          <tbody id="lineas"><tr class="vacio"><td colspan="6">Todavía no hay accesorios en el pedido.</td></tr></tbody>
+          <tfoot><tr><th colspan="4">Total del pedido</th><td id="totalPedido">$0,00</td><td></td></tr></tfoot>
+        </table>
+      </div>
+      <a class="boton boton-borde boton-oscuro" href="#enviar">Enviar el pedido</a>
+      <p class="nota pendiente">Precios y unidades por caja de ejemplo: se reemplazan con la lista de precios real.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ENVÍO DEL PEDIDO: sirve para los dos cotizadores; manda lo que esté a la vista -->
+<section id="enviar" class="seccion">
+  <form id="contacto" class="tarjeta-form tarjeta-ancha">
+    <p class="paso">Enviar el pedido</p>
+    <label>Nombre<input name="nombre" required autocomplete="name"></label>
+    <label>Teléfono<input name="telefono" type="tel" required autocomplete="tel"></label>
+    <label>Ciudad<input name="ciudad" autocomplete="address-level2"></label>
+    <div class="envio">
+      <button class="boton boton-wa" type="submit" value="wa">Enviar por WhatsApp</button>
+      <button class="boton boton-borde" type="submit" value="correo">Enviar por correo</button>
+    </div>
+    <p id="contactoAviso" class="aviso" role="status" hidden></p>
+    <dl class="datos-venta">
+      <div><dt>WhatsApp</dt><dd data-wa-texto></dd></div>
+      <div><dt>Correo</dt><dd data-correo-texto></dd></div>
+    </dl>
+    <p class="nota">El mensaje lleva lo cotizado en esta página.</p>
+    <p class="nota pendiente">Número y correo de prueba: falta reemplazarlos por los reales.</p>
+  </form>
+</section>
+</main>
+<div id="pie"></div>
+<script type="module" src="/src/cotizar.js"></script>
+</body>
+</html>

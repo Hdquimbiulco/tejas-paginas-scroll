@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- PRODUCTOS: categorías con sus productos. La lista sale de src/datos.js (productos.js la arma). -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Productos · Truvec</title>
+  <meta name="description" content="Tejas, láminas, cumbreras y accesorios Truvec.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body data-pagina="productos">
+<div id="cabecera"></div>
+<main>
+<section class="hero hero-corto" style="--foto: url(/img/mosaico/pvc-ondas.webp)">
+  <div class="hero-texto"><h1>Productos</h1><p>Tejas y láminas para cada obra, con cumbreras y accesorios para cerrar el techo.</p></div>
+</section>
+<div class="migas-fila"><ol class="migas" aria-label="Ruta"><li><a href="index.html">Inicio</a></li><li aria-current="page">Productos</li></ol><ul class="submenu" data-submenu></ul></div>
+<section class="seccion">
+  <div class="categorias" data-categorias></div>
+  <p class="nota"><span class="etiqueta-ejemplo">Ejemplo</span> = producto de prueba: no está en el catálogo real.</p>
+</section>
+</main>
+<div id="pie"></div>
+<script type="module" src="/src/productos.js"></script>
+</body>
+</html>

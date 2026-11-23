@@ -1,0 +1,67 @@
+<!doctype html>
+<!-- RECICLAJE: programa de ejemplo con beneficios, pasos y puntos de acopio. Verde, como en la referencia. -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reciclaje · Truvec</title>
+  <meta name="description" content="Programa Recicla tu teja de Truvec.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body data-pagina="reciclaje">
+<div id="cabecera"></div>
+<main>
+<section class="hero hero-corto hero-verde" style="--foto: url(/img/mosaico/pvc-ondas.webp)">
+  <div class="hero-texto"><h1>Reciclaje</h1><p>El PVC no se tira: vuelve a la planta y se convierte en otro producto.</p></div>
+</section>
+<div class="migas-fila"><ol class="migas" aria-label="Ruta"><li><a href="index.html">Inicio</a></li><li aria-current="page">Reciclaje</li></ol><ul class="submenu"><li><a href="#programa">Programa Recicla tu teja</a></li><li><a href="#acopio">Puntos de acopio</a></li></ul></div>
+
+<section id="programa" class="seccion dos-columnas">
+  <div>
+    <p class="marca-programa"><svg class="ico"><use href="#i-reciclar"/></svg><span>Recicla tu teja<small>Programa de Truvec</small></span></p>
+    <p>Las láminas de PVC cambiadas en una remodelación y los recortes de obra se reciben en los puntos de acopio. En planta se clasifican, se trituran y vuelven a la producción.</p>
+    <p>Los maestros y las ferreterías que entregan material reciben descuentos en su próxima compra. <span class="pendiente">Programa de ejemplo.</span></p>
+  </div>
+  <figure class="foto-pestana foto-verde"><img src="/img/mosaico/pvc-colores.webp" alt="Láminas de PVC de colores" loading="lazy"></figure>
+</section>
+
+<section class="franja-verde">
+  <h2>Beneficios</h2>
+  <ul class="beneficios">
+    <li><svg class="ico"><use href="#i-hoja"/></svg><b>Disminuir</b><span>los residuos de obra que van al relleno.</span></li>
+    <li><svg class="ico"><use href="#i-reciclar"/></svg><b>Reutilizar</b><span>el PVC en productos nuevos.</span></li>
+    <li><svg class="ico"><use href="#i-moneda"/></svg><b>Ahorrar</b><span>con descuentos por cada entrega.</span></li>
+  </ul>
+</section>
+
+<section class="seccion">
+  <p class="cita-verde">«El reciclaje es tarea de todos: de quien construye, de quien vende y de quien fabrica.»</p>
+</section>
+
+<section class="seccion seccion-gris">
+  <header class="cabecera-seccion"><h2 class="titulo">Cómo <em>funciona</em></h2></header>
+  <ol class="pasos">
+    <li><b>Separar</b>Las láminas y los recortes de PVC, sin tornillos ni clavos.</li>
+    <li><b>Llevar</b>El material a un punto de acopio de la lista.</li>
+    <li><b>Recibir</b>El comprobante con el descuento para la próxima compra.</li>
+  </ol>
+</section>
+
+<section id="acopio" class="seccion">
+  <header class="cabecera-seccion"><h2 class="titulo">Puntos de <em>acopio</em></h2></header>
+  <ul class="lista-puntos">
+    <li><svg class="ico"><use href="#i-pin"/></svg><span><b>Quito</b>Planta Guamaní, Panamericana Sur</span></li>
+    <li><svg class="ico"><use href="#i-pin"/></svg><span><b>Guayaquil</b>Sucursal norte</span></li>
+    <li><svg class="ico"><use href="#i-pin"/></svg><span><b>Cuenca</b>Sucursal Cuenca</span></li>
+    <li><svg class="ico"><use href="#i-pin"/></svg><span><b>Ambato</b>Sucursal Ambato</span></li>
+  </ul>
+  <p class="nota pendiente">Puntos de ejemplo, salvo la dirección de Quito.</p>
+</section>
+</main>
+<div id="pie"></div>
+<script type="module" src="/src/pagina.js"></script>
+</body>
+</html>
