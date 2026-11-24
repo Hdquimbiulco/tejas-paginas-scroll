@@ -24,12 +24,17 @@ const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const celular = innerWidth < 768;
 const PASO = celular ? 2 : 1;            // en celular, 1 de cada 2 fotogramas
 const escenas = $$('[data-frames]');
+const FPS_VIDEO = 24;                    // con movimiento reducido, las escenas se reproducen a 24 fotogramas por segundo
 
 // ---------------------------------------------------------------------------
 // 1. PORTADA — la escena queda fija y el scroll elige el fotograma
 // Los textos .cap aparecen y se van según data-tramo="inicio,fin".
 // No hay pantalla de carga: mientras bajan los fotogramas se ve el primero como
 // fondo, y el scroll ya funciona; al terminar la descarga se dibuja el que toca.
+// Con «movimiento reducido» (animaciones apagadas en el sistema) la escena no se
+// fija ni sigue al scroll: se reproduce sola como video, en bucle, mientras está
+// en pantalla. La misma línea de tiempo turna los tres textos (sin ella quedan
+// encimados); sólo se quitan el deslizamiento de los textos y el giro del arco.
 // ---------------------------------------------------------------------------
 escenas.forEach((escena) => {
   let secuencia = null;
@@ -39,11 +44,12 @@ escenas.forEach((escena) => {
     .then((blobs) => crearSecuencia(escena.querySelector('canvas'), blobs))
     .then((s) => { secuencia = s; s.mostrar(avance); })
     .catch((error) => console.error(error));
-  if (quieto) return;
   const tl = gsap.timeline({
     defaults: { ease: 'none', duration: 0.04 },
     onUpdate: () => { avance = tl.progress(); if (secuencia) secuencia.mostrar(avance); },
-    scrollTrigger: {
+    // Con movimiento reducido: sin scroll, se reproduce sola (ver abajo).
+    ...(quieto ? { paused: true, repeat: -1 } : {}),
+    scrollTrigger: quieto ? undefined : {
       trigger: escena,
       start: 'top top',
       end: `+=${(celular ? escena.dataset.pantallasMovil : escena.dataset.pantallas) * 100}%`,
@@ -54,13 +60,17 @@ escenas.forEach((escena) => {
   });
   escena.querySelectorAll('[data-tramo]').forEach((el) => {
     const [a, b] = el.dataset.tramo.split(',').map(Number);
-    const desde = el.classList.contains('cap-der') ? 60 : -60;
+    const desde = quieto ? 0 : el.classList.contains('cap-der') ? 60 : -60;
     if (a > 0) tl.fromTo(el, { autoAlpha: 0, x: desde }, { autoAlpha: 1, x: 0 }, a);
     if (b < 1) tl.to(el, { autoAlpha: 0, x: -desde / 2 }, b - 0.04);
   });
   // El arco terracota de la portada gira apenas mientras se baja.
-  tl.fromTo('.arco', { rotate: -8 }, { rotate: 14, duration: 1 }, 0);
+  if (!quieto) tl.fromTo('.arco', { rotate: -8 }, { rotate: 14, duration: 1 }, 0);
   tl.set({}, {}, 1);
+  if (quieto) {
+    tl.timeScale(1 / (+escena.dataset.total / FPS_VIDEO));   // 180 fotogramas a 24 por segundo
+    new IntersectionObserver(([e]) => (e.isIntersecting ? tl.play() : tl.pause())).observe(escena);
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -100,6 +110,7 @@ function sincronizarLamina(p) {
 function irAFotograma(f) {
   const p = aAvance(f);
   if (fijacionLamina) scrollTo({ top: fijacionLamina.start + p * (fijacionLamina.end - fijacionLamina.start) + 2, behavior: 'smooth' });
+  else if (relojLamina) relojLamina.progress(p);
   else sincronizarLamina(p);
 }
 acabados.forEach((a) => a.querySelector('.acabados-nombre').addEventListener('click', () => irAFotograma(+a.dataset.desde)));
@@ -110,17 +121,25 @@ coloresVideo.forEach((li) => {
   li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); irAFotograma(+li.dataset.desde); } });
 });
 
-if (!quieto) {
-  fijacionLamina = ScrollTrigger.create({
-    trigger: seccionLamina,
-    start: 'top top',
-    end: `+=${(celular ? seccionLamina.dataset.pantallasMovil : seccionLamina.dataset.pantallas) * 100}%`,
-    pin: true,
-    scrub: celular ? true : 0.35,
-    onUpdate: (st) => sincronizarLamina(st.progress),
-    onToggle: ({ isActive }) => { if (!isActive && secuenciaLamina) secuenciaLamina.liberar(); },
+// Con «movimiento reducido» el video se reproduce solo, en bucle, mientras se ve;
+// sin movimiento reducido, la sección queda fija y el scroll elige el fotograma.
+let relojLamina = null;
+if (quieto) {
+  const estado = { p: 0 };
+  relojLamina = gsap.to(estado, {
+    p: 1, duration: TOTAL_LAMINA / FPS_VIDEO, ease: 'none', repeat: -1, paused: true,
+    onUpdate: () => sincronizarLamina(estado.p),
   });
-}
+  new IntersectionObserver(([e]) => (e.isIntersecting ? relojLamina.play() : relojLamina.pause())).observe(seccionLamina);
+} else fijacionLamina = ScrollTrigger.create({
+  trigger: seccionLamina,
+  start: 'top top',
+  end: `+=${(celular ? seccionLamina.dataset.pantallasMovil : seccionLamina.dataset.pantallas) * 100}%`,
+  pin: true,
+  scrub: celular ? true : 0.35,
+  onUpdate: (st) => sincronizarLamina(st.progress),
+  onToggle: ({ isActive }) => { if (!isActive && secuenciaLamina) secuenciaLamina.liberar(); },
+});
 sincronizarLamina(0);
 
 new IntersectionObserver(async ([e], obs) => {

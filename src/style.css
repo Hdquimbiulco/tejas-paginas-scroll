@@ -645,7 +645,25 @@ button.mapa-ruta-paso { cursor: pointer; text-decoration: underline; text-underl
 }
 
 /* 17. MOVIMIENTO REDUCIDO --------------------------------------------------- */
+/* Celular en horizontal (poca altura): los textos de la portada se achican según
+   el alto para no quedar debajo del menú ni del botón de contacto. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .cap { bottom: 5vh; }
+  .cap .sello { margin-bottom: 8px; font-size: 12px; padding: 4px 10px; }
+  .cap-inicio h1 { font-size: 13vh; }
+  .cap-lado h2 { font-size: 11vh; }
+  .cap-texto { margin-top: 6px; font-size: 16px; }
+  .cap-num { margin-bottom: 2px; font-size: 16px; }
+  .cap .boton { margin-top: 12px; }
+  .indicacion { margin-top: 10px; font-size: 14px; }
+  .indicacion span { height: 22px; }
+  .cap-der { text-align: left; left: var(--gutter); }
+  .cap-der .cap-texto { margin-left: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
+  /* Las escenas se reproducen solas como video: la indicación de bajar no aplica. */
+  .indicacion { display: none; }
 }
